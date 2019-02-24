@@ -16,7 +16,6 @@ client.on('message', message => {
 		let msg = message.content.toLowerCase();
 		let args = msg.split(" ");
 		args.splice(0, 1);
-		console.log(args);
 		if(msg.startsWith('!info')) {
 			if(args.length == 1) {
 				request(config.api_url + '/cardinfo/' + args[0], function (error, response, body) {
@@ -31,8 +30,13 @@ client.on('message', message => {
 					if(data.success) {
 						let result = '\nCard type: ' + data.data.card_type;
 						result += '\nName: ' + data.data.name;
-						result += '\nFamily: ' + data.data.family;
+						if(data.data.family != null) {
+							result += '\nFamily: ' + data.data.family;
+						}
+
+						if(data.data.type != null) {
 						result += '\nType: ' + data.data.type;
+						}
 						result += '\nRarity: ' + data.data.price_data.rarity;
 						result += '\nSet: ' + data.data.price_data.name;
 
@@ -89,7 +93,6 @@ client.on('message', message => {
 			message.reply('Unknown command. Use !help for a list of commands');
 		}
 	}
-	console.log(message.channel.id);
 });
 
 client.login(config.discord_token);
