@@ -5,6 +5,8 @@ const Discord      = require('discord.js');
 const config       = require('./config.json');
 const client       = new Discord.Client();
 
+require('log-timestamp');
+
 client.on('ready', () => {
 	console.log('Discord client ready!');
 });
@@ -26,7 +28,7 @@ client.on('message', message => {
 					request(config.api_url + '/cardinfo/' + args[0], function (error, response, body) {
 						if(error) {
 							console.log('Failed to check info for ' + args[0] + ' API Error');
-							console.warn(error);
+							console.log(error);
 							message.reply('An error occurred! Please try again later');
 							return;
 						}
@@ -71,7 +73,7 @@ client.on('message', message => {
 					request(config.api_url + '/cardprice/' + args[0], function (error, response, body) {
 						if(error) {
 							console.log('Failed to check price for ' + args[0] + ' API Error');
-							console.warn(error);
+							console.log(error);
 							message.reply('An error occurred! Please try again later');
 							return;
 						}
