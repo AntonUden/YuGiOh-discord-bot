@@ -19,9 +19,9 @@ client.on('message', message => {
 	if(config.channels.includes(message.channel.id) || message.guild === null) {
 		try {
 			if(message.guild === null) {
-				console.log('Received \'' + message + '\' in dm from ' + message.author.usename);
+				console.log('Received \'' + message + '\' in dm from ' + message.author.username);
 			} else {
-				console.log('Received \'' + message + '\' in channel ' + message.channel.id+ ' from '  + message.author.usename);
+				console.log('Received \'' + message + '\' in channel ' + message.channel.id+ ' from '  + message.author.username);
 			}
 			let msg = message.content.toLowerCase();
 			let args = msg.split(" ");
