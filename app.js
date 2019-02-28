@@ -125,19 +125,34 @@ client.on('message', message => {
 									message.reply(result);
 								}
 							} else {
-								if(data.cardmarket_error) {
-									console.log('Failed to find cardmarket price for ' + args[0].toUpperCase() + '. data.message: ' + data.message);
-									message.reply('Failed to extract cardmarket price!');
-								} else if(data.error) {
-									console.log('Failed to find card ' + args[0].toUpperCase() + '. data.message: ' + data.message);
-									message.reply('An error occurred! Please try again later');
-								} else {
-									if(data.data == undefined) {
-										console.log('Card with print tag ' + args[0].toUpperCase() + ' not found. data.message: ' + data.message);
-										message.reply('Could not find card with print tag \'' + args[0].toUpperCase() + '\'');
-									} else {
-										console.log('Failed to find cardmarket price for ' + args[0].toUpperCase() + '. data.message: ' + data.message);
-										message.reply('Failed to find cardmarket price!');
+								// ErrNo: 0: No error, 1: Card not found, 2: Failed to find card, 3: Failed to find cardmarket versions, 4: Failed to find cardmarket version, 5: Failed to find cardmarket price
+								if(data.success == false) {
+									switch (data.errno) {
+										case 1:
+											console.log('Card with print tag ' + args[0].toUpperCase() + ' not found. data.message: ' + data.message);
+											message.reply('Could not find card with print tag \'' + args[0].toUpperCase() + '\'');
+											break;
+										case 2:
+											console.log('Failed to find card ' + args[0].toUpperCase() + '. data.message: ' + data.message);
+											message.reply('An error occurred! Please try again later');
+											break;
+										case 3:
+											console.log('Failed to find versions of this card on cardmarket. PrintTag: ' + args[0].toUpperCase() + '. data.message: ' + data.message);
+											message.reply('Failed to find versions of this card on cardmarket!');
+											break;
+										case 4:
+											console.log('Failed to find version on cardmarket. PrintTag: ' + args[0].toUpperCase() + '. data.message: ' + data.message);
+											message.reply('Failed to find version on cardmarket!');
+											break;
+										case 5:
+											console.log('Failed to find cardmarket price for ' + args[0].toUpperCase() + '. data.message: ' + data.message);
+											message.reply('Failed to find cardmarket price!');
+											break;
+
+										default:
+											console.log('Failed to find card ' + args[0].toUpperCase() + '. data.message: ' + data.message);
+											message.reply('An error occurred! Please try again later');
+											break;
 									}
 								}
 							}

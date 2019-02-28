@@ -1,6 +1,6 @@
 {
 	"discord_token":"NTQ5Mjg4NzkzMzc5NzAwODEz.D1RuXQ.fgpyyAKdmUdEXKnASds_r8PkAt4",
-	"api_url":"https://shrouded-atoll-46679.herokuapp.com",
+	"api_url":"http://127.0.0.1",
 	"channels": [
 		"549288937827598338"
 	]
