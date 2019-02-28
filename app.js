@@ -19,14 +19,14 @@ client.on('message', message => {
 	if(config.channels.includes(message.channel.id) || message.guild === null) {
 		try {
 			if(message.guild === null) {
-				console.log('Received \'' + message + '\' in dm from ' + message.author.usename);
+				console.log('Received \'' + message + '\' in dm from ' + message.author.username);
 			} else {
-				console.log('Received \'' + message + '\' in channel ' + message.channel.id+ ' from '  + message.author.usename);
+				console.log('Received \'' + message + '\' in channel ' + message.channel.id+ ' from '  + message.author.username);
 			}
 			let msg = message.content.toLowerCase();
 			let args = msg.split(" ");
 			args.splice(0, 1);
-			if(msg.toLowerCase().startsWith('!info ') || msg.toLowerCase() == '!info') {
+			if(msg.startsWith('!info ') || msg == '!info') {
 				if(args.length == 1) {
 					console.log('Checking info for ' + args[0]);
 					request(config.api_url + '/cardinfo/' + args[0], function (error, response, body) {
@@ -53,6 +53,24 @@ client.on('message', message => {
 								result += '\nRarity: ' + data.data.price_data.rarity;
 								result += '\nSet: ' + data.data.price_data.name;
 
+								if(data.data.text != undefined) {
+									result += '\nText: ' + data.data.text;
+								} else {
+									console.log('Failed to find card text for ' + args[0]);
+								}
+
+								if(data.data.atk != undefined) {
+									result += '\nATK: ' + data.data.atk;
+								}
+
+								if(data.data.def != undefined) {
+									result += '\nDEF: ' + data.data.def;
+								}
+
+								if(data.data.level != undefined) {
+									result += '\nLevel: ' + data.data.level;
+								}
+
 								message.reply(result);
 							} else {
 								if(data.error) {
@@ -71,7 +89,7 @@ client.on('message', message => {
 				} else {
 					message.reply('Useage: !info <PrintTag>');
 				}
-			} else if(msg.toLowerCase().startsWith('!price ') || msg.toLowerCase() == '!price') {
+			} else if(msg.startsWith('!price ') || msg == '!price') {
 				if(args.length == 1) {
 					console.log('Checking price for ' + args[0]);
 					request(config.api_url + '/cardprice/' + args[0], function (error, response, body) {
@@ -91,6 +109,10 @@ client.on('message', message => {
 									result += '\nName: ' + data.data.card.name;
 									result += '\nSet: ' + data.data.card.price_data.name;
 									result += '\nRarity: ' + data.data.card.price_data.rarity;
+									if(data.data.level != undefined) {
+										result += '\nLevel: ' + data.data.level;
+									}
+
 									result += '\nCardmarket price: ' + data.data.cardmarket.lowest_price + ' €';
 
 									let priceSek = null;
@@ -168,7 +190,7 @@ client.on('message', message => {
 				} else {
 					message.reply("Useage: !price <PrintTag>");
 				}
-			} else if(msg.toLowerCase().startsWith('!help ') || msg.toLowerCase() == '!help') {
+			} else if(msg.startsWith('!help ') || msg == '!help') {
 				message.reply('\n!help\n!info <PrintTag>\n!price <PrintTag>');
 			} else {
 				message.reply('Unknown command. Use !help for a list of commands');
