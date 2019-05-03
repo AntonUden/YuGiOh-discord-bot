@@ -148,6 +148,8 @@ client.on('message', message => {
 										result += '\nCardmarket price: ' + priceSek + ' SEK';
 									}
 
+									result += '\n\nRemember to check if rarity matches the card';
+
 									message.reply(result);
 								}
 							} else {
